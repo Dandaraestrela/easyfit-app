@@ -6,6 +6,7 @@ const tableData = [
   { teste: "teste 1", teste2: "teste 1 2", teste3: "teste 1 2" },
   { teste: "teste 2", teste2: "teste 1 2", teste3: "teste 1 2" },
   { teste: "teste 3", teste2: "teste 1 2", teste3: "teste 1 2" },
+  { teste: "teste 3", teste2: "teste 1 2", teste3: "teste 1 2" },
 ];
 
 const headers = [
