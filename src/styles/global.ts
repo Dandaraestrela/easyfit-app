@@ -17,13 +17,9 @@ button {
 }
 
 
-button:focus, button:focus-within {
+button:focus, button:focus-within, input:focus, input:focus-within, textarea:focus-within, textarea:focus{
   outline-style: solid;
   outline-color: ${({ theme: { colors } }) => colors.redDark} !important;
 }
 
-input:focus, input:focus-within {
-  outline-style: solid;
-  outline-color: ${({ theme: { colors } }) => colors.redDark} !important;
-}
 `;

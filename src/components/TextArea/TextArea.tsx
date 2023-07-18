@@ -1,18 +1,18 @@
-import { InputHTMLAttributes, forwardRef, ChangeEvent } from "react";
+import { TextareaHTMLAttributes, forwardRef, ChangeEvent } from "react";
 
-import * as S from "./TextInput.styles";
+import * as S from "./TextArea.styles";
 
-interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   placeholder?: string;
   value?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   col?: number;
   error?: string;
   isReadOnly?: boolean;
 }
 
-const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+const TextArea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
       label,
@@ -40,4 +40,4 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     </S.Wrapper>
   )
 );
-export default TextInput;
+export default TextArea;

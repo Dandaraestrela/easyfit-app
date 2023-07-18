@@ -37,6 +37,7 @@ export const ButtonWrapper = styled.button<ButtonProps>`
 
     font-size: 16px;
     font-weight: bold;
+    text-transform: uppercase;
 
     cursor: pointer;
 

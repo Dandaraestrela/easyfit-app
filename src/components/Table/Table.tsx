@@ -1,7 +1,12 @@
 import * as S from "./Table.styles";
 
 interface TableProps {
-  headers: { title: string; accessor: string; cellType: Function }[];
+  headers: {
+    title: string;
+    accessor: string;
+    cellType: Function;
+    width?: string;
+  }[];
   data: {
     [keys: string]: string | number | object | boolean | object[];
   }[];
@@ -11,23 +16,21 @@ export function Table({ headers, data }: TableProps) {
   return (
     <S.Wrapper>
       <thead>
-        <S.Row>
-          {headers.map(({ title }, i) => (
-            <th key={i}>
-              <S.TableHeader key={title}>{title}</S.TableHeader>
+        <tr>
+          {headers.map(({ title, width = "auto" }, i) => (
+            <th key={title} style={{ width: width }}>
+              <S.TableHeader>{title}</S.TableHeader>
             </th>
           ))}
-        </S.Row>
+        </tr>
       </thead>
       <tbody>
         {data.map((content, i) => (
-          <S.Row key={i}>
-            <>
-              {headers.map(({ cellType }, i) => (
-                <td key={i}>{cellType(content)}</td>
-              ))}
-            </>
-          </S.Row>
+          <tr key={i} style={{ width: "100%" }}>
+            {headers.map(({ cellType }, i) => (
+              <td>{cellType(content)}</td>
+            ))}
+          </tr>
         ))}
       </tbody>
     </S.Wrapper>

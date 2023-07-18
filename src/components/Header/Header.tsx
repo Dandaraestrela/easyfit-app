@@ -8,29 +8,29 @@ import { ReactComponent as Logo } from "@/assets/Logo.svg";
 import * as S from "./Header.styles";
 
 export function Header() {
-  const userType = "trainer";
+  const userType = "student";
 
   const menuLinks = {
     student: [
-      <NavLink to={routesURLs.myTrains}>
+      <NavLink key="Treinos" to={routesURLs.myWorkouts}>
         <Barbell size={22} weight="bold" />
         Treinos
       </NavLink>,
-      <NavLink to={routesURLs.config}>
+      <NavLink key="Configurações" to={routesURLs.config}>
         <Gear size={22} weight="bold" />
         Configurações
       </NavLink>,
     ],
     trainer: [
-      <NavLink to={routesURLs.studentsList}>
+      <NavLink key="treinos" to={routesURLs.studentsList}>
         <Barbell size={22} weight="bold" />
         Treinos
       </NavLink>,
-      <NavLink to={routesURLs.studentsRegister}>
+      <NavLink key="Cadastro de alunos" to={routesURLs.studentsRegister}>
         <Users size={22} weight="bold" />
         Cadastro de alunos
       </NavLink>,
-      <NavLink to={routesURLs.config}>
+      <NavLink key="Configurações" to={routesURLs.config}>
         <Gear size={22} weight="bold" />
         Configurações
       </NavLink>,
@@ -41,14 +41,16 @@ export function Header() {
     <S.Wrapper>
       <NavLink
         to={
-          userType === "student" ? routesURLs.myTrains : routesURLs.studentsList
+          userType === "student"
+            ? routesURLs.myWorkouts
+            : routesURLs.studentsList
         }
       >
         <Logo style={{ width: "140px" }} />
       </NavLink>
       <S.MenuLinksWrapper>
         {menuLinks[userType]}
-        <NavLink to={routesURLs.logout}>
+        <NavLink key="Sair" to={routesURLs.logout}>
           <SignOut size={22} weight="bold" />
           Sair
         </NavLink>

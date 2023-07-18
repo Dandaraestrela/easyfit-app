@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 interface RowProps {
+  justifyContent?: string;
   marginTop?: number;
   marginBottom?: number;
   gap?: number;
@@ -10,6 +11,7 @@ interface RowProps {
 export const Row = styled.div<RowProps>`
   display: flex;
   width: 100%;
+  justify-content: ${({ justifyContent }) => justifyContent};
   margin-top: ${({ marginTop }) => marginTop}px;
   margin-bottom: ${({ marginBottom }) => marginBottom}px;
   gap: ${({ gap }) => gap}px;

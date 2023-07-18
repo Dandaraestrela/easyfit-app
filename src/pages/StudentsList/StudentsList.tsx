@@ -2,38 +2,74 @@ import { Table } from "@/components/Table/Table";
 import ActionsContent from "@/components/Table/TableCellTypes/ActionsContent";
 import DefaultContent from "@/components/Table/TableCellTypes/DefaultContent";
 
+import * as S from "./StudentsList.styles";
+import { Title } from "@/components/DefaultStyles/Typography";
+
 const tableData = [
-  { teste: "teste 1", teste2: "teste 1 2", teste3: "teste 1 2" },
-  { teste: "teste 2", teste2: "teste 1 2", teste3: "teste 1 2" },
-  { teste: "teste 3", teste2: "teste 1 2", teste3: "teste 1 2" },
-  { teste: "teste 3", teste2: "teste 1 2", teste3: "teste 1 2" },
+  {
+    id: 1,
+    registerDate: "01/02/2020",
+    name: "Dandara Estrela",
+    username: "DandaraEstrela",
+    workouts: [],
+  },
+  {
+    id: 2,
+    registerDate: "01/02/2020",
+    name: "Dandara Estrela",
+    username: "DandaraEstrela",
+    workouts: [],
+  },
+  {
+    id: 3,
+    registerDate: "01/02/2020",
+    name: "Dandara Estrela",
+    username: "DandaraEstrela",
+    workouts: [],
+  },
+  {
+    id: 4,
+    registerDate: "01/02/2020",
+    name: "Dandara Estrela",
+    username: "DandaraEstrela",
+    workouts: [],
+  },
 ];
 
 const headers = [
   {
-    title: "teste",
-    accessor: "teste",
+    title: "Cadastro",
+    accessor: "registerDate",
     cellType: (data: (typeof tableData)[0]) => (
-      <DefaultContent cellData={data.teste} />
+      <DefaultContent cellData={data.registerDate} />
     ),
   },
   {
-    title: "teste 2",
-    accessor: "teste2",
+    title: "Nome",
+    accessor: "name",
     cellType: (data: (typeof tableData)[0]) => (
-      <DefaultContent cellData={data.teste} />
+      <DefaultContent cellData={data.name} />
     ),
   },
   {
-    title: "teste 3",
-    accessor: "teste3",
+    title: "Usuário",
+    accessor: "username",
     cellType: (data: (typeof tableData)[0]) => (
-      <DefaultContent cellData={data.teste} />
+      <DefaultContent cellData={data.username} />
     ),
   },
   {
-    title: "teste 3",
+    title: "Qnt. Treinos",
+    accessor: "workouts",
+
+    cellType: (data: (typeof tableData)[0]) => (
+      <DefaultContent cellData={data.workouts.length} />
+    ),
+  },
+  {
+    title: "Ações",
     accessor: "actions",
+    width: "360px",
     cellType: (data: (typeof tableData)[0]) => (
       <ActionsContent
         cellData={data}
@@ -49,8 +85,9 @@ const headers = [
 
 export function StudentsList() {
   return (
-    <div>
+    <S.Wrapper>
+      <Title>Listagem de Alunos</Title>
       <Table headers={headers} data={tableData} />
-    </div>
+    </S.Wrapper>
   );
 }

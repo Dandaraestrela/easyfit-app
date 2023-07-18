@@ -29,7 +29,7 @@ export function Login() {
 
   const onSubmit = () => {
     // TODO: alterar de acordo com perfil que fez login
-    navigate(routesURLs.myTrains);
+    navigate(routesURLs.myWorkouts);
   };
 
   return (

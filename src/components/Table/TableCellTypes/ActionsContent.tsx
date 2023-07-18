@@ -1,18 +1,30 @@
 import styled, { css } from "styled-components";
 
-const DefaultContentWrapper = styled.div`
-  ${({ theme: { colors } }) => css`
-    width: 100%;
-
-    padding: 8px 12px;
-
-    font-size: 14px;
-
-    color: ${colors.g1};
-  `};
+const ActionsContentWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 8px 12px;
 `;
 
-const TableButton = styled.button``;
+const TableButton = styled.button`
+  ${({ theme: { colors } }) => css`
+    padding: 4px 8px;
+
+    background-color: transparent;
+    border: none;
+    border-right: 1px solid ${colors.g3};
+
+    font-size: 14px;
+    color: ${colors.g1};
+    cursor: pointer;
+    &:last-of-type {
+      border-right: none;
+    }
+    &:hover {
+      background-color: ${colors.g3};
+    }
+  `};
+`;
 
 type ActionsProps = {
   buttons: { title: string; action: Function }[];
@@ -21,13 +33,13 @@ type ActionsProps = {
 
 const ActionsContent = ({ buttons, cellData }: ActionsProps) => {
   return (
-    <DefaultContentWrapper>
+    <ActionsContentWrapper>
       {buttons.map((button) => (
-        <TableButton onClick={() => button.action(cellData)}>
+        <TableButton key={button.title} onClick={() => button.action(cellData)}>
           {button.title}
         </TableButton>
       ))}
-    </DefaultContentWrapper>
+    </ActionsContentWrapper>
   );
 };
 

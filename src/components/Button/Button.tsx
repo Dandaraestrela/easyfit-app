@@ -9,8 +9,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, variant = "primary", col = 16, marginTop }, ref) => (
-    <ButtonWrapper ref={ref} variant={variant} col={col} marginTop={marginTop}>
+  ({ children, variant = "primary", col = 16, marginTop, ...props }, ref) => (
+    <ButtonWrapper
+      ref={ref}
+      variant={variant}
+      col={col}
+      marginTop={marginTop}
+      {...props}
+    >
       {children}
     </ButtonWrapper>
   )
