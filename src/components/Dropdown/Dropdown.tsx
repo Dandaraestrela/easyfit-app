@@ -1,28 +1,39 @@
 import { useState } from "react";
-import { CaretDown, CaretUp } from "@phosphor-icons/react";
+import { CaretDown, CaretUp, WarningCircle } from "@phosphor-icons/react";
 import * as S from "./Dropdown.styles";
+import { theme } from "@/styles/theme";
 
 interface DropdownProps {
   title: string;
+  attention?: boolean;
   children?: React.ReactNode;
 }
 
-export function Dropdown({ title, children }: DropdownProps) {
+export function Dropdown({ title, attention, children }: DropdownProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
-    <S.Wrapper isOpen={isOpen}>
+    <S.Wrapper $isOpen={isOpen}>
       <S.DropdownHeaderButton
-        isOpen={isOpen}
+        $isOpen={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
       >
         {title}
-        {isOpen ? (
-          <CaretUp size={32} color="#985252" weight="bold" />
-        ) : (
-          <CaretDown size={32} color="#985252" weight="bold" />
-        )}
+        <S.IconsWrapper>
+          {attention && (
+            <WarningCircle
+              size={24}
+              color={theme.colors.redMedium}
+              weight="bold"
+            />
+          )}
+          {isOpen ? (
+            <CaretUp size={32} color={theme.colors.redDark} weight="bold" />
+          ) : (
+            <CaretDown size={32} color={theme.colors.redDark} weight="bold" />
+          )}
+        </S.IconsWrapper>
       </S.DropdownHeaderButton>
-      {isOpen && children}
+      {isOpen && <S.ContentWrapper>{children}</S.ContentWrapper>}
     </S.Wrapper>
   );
 }
