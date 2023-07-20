@@ -8,7 +8,7 @@ import { ReactComponent as Logo } from "@/assets/Logo.svg";
 import * as S from "./Header.styles";
 
 export function Header() {
-  const userType = "student";
+  const userType = "trainer";
 
   const menuLinks = {
     student: [
@@ -30,10 +30,10 @@ export function Header() {
         <Users size={22} weight="bold" />
         Cadastro de alunos
       </NavLink>,
-      <NavLink key="Configurações" to={routesURLs.config}>
-        <Gear size={22} weight="bold" />
-        Configurações
-      </NavLink>,
+      // <NavLink key="Configurações" to={routesURLs.config}>
+      //   <Gear size={22} weight="bold" />
+      //   Configurações
+      // </NavLink>,
     ],
   };
 
