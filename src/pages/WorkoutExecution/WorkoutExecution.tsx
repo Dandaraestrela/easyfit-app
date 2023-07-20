@@ -44,7 +44,7 @@ export function WorkoutExecution() {
         {dataFromObjectMock.exercises.map((exercise) => (
           <Dropdown key={exercise.id} title={exercise.name}>
             <>
-              <Row gap={8}>
+              <Row $gap={8}>
                 <TextArea
                   label="Descrição"
                   value="valor valorvalorvalorvalorvalor valorvalorvalorvalor valorvalorvalor"
@@ -53,7 +53,7 @@ export function WorkoutExecution() {
                 <TextInput label="Repetições" value="valor" isReadOnly />
                 <TextInput label="Respiração" value="valor" isReadOnly />
               </Row>
-              <Row gap={8}>
+              <Row $gap={8}>
                 <a href={"https://google.com.br"} target="_blank">
                   {"https://google.com.br"}
                 </a>
@@ -62,7 +62,7 @@ export function WorkoutExecution() {
           </Dropdown>
         ))}
       </S.ContentWrapper>
-      <Row justifyContent="space-between">
+      <Row $justifyContent="space-between">
         <Button
           col={4}
           variant="secondary"

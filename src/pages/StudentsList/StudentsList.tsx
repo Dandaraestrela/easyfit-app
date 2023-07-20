@@ -4,6 +4,8 @@ import DefaultContent from "@/components/Table/TableCellTypes/DefaultContent";
 
 import * as S from "./StudentsList.styles";
 import { Title } from "@/components/DefaultStyles/Typography";
+import { useNavigate } from "react-router-dom";
+import { routesURLs } from "@/routes/Router";
 
 const tableData = [
   {
@@ -36,54 +38,58 @@ const tableData = [
   },
 ];
 
-const headers = [
-  {
-    title: "Cadastro",
-    accessor: "registerDate",
-    cellType: (data: (typeof tableData)[0]) => (
-      <DefaultContent cellData={data.registerDate} />
-    ),
-  },
-  {
-    title: "Nome",
-    accessor: "name",
-    cellType: (data: (typeof tableData)[0]) => (
-      <DefaultContent cellData={data.name} />
-    ),
-  },
-  {
-    title: "Usuário",
-    accessor: "username",
-    cellType: (data: (typeof tableData)[0]) => (
-      <DefaultContent cellData={data.username} />
-    ),
-  },
-  {
-    title: "Qnt. Treinos",
-    accessor: "workouts",
-
-    cellType: (data: (typeof tableData)[0]) => (
-      <DefaultContent cellData={data.workouts.length} />
-    ),
-  },
-  {
-    title: "Ações",
-    accessor: "actions",
-    width: "360px",
-    cellType: (data: (typeof tableData)[0]) => (
-      <ActionsContent
-        cellData={data}
-        buttons={[
-          { title: "Editar treinos", action: (data) => console.log(data) },
-          { title: "Resetar senha", action: (data) => console.log(data) },
-          { title: "Excluir usuário", action: (data) => console.log(data) },
-        ]}
-      />
-    ),
-  },
-];
-
 export function StudentsList() {
+  const navigate = useNavigate();
+  const headers = [
+    {
+      title: "Cadastro",
+      accessor: "registerDate",
+      cellType: (data: (typeof tableData)[0]) => (
+        <DefaultContent cellData={data.registerDate} />
+      ),
+    },
+    {
+      title: "Nome",
+      accessor: "name",
+      cellType: (data: (typeof tableData)[0]) => (
+        <DefaultContent cellData={data.name} />
+      ),
+    },
+    {
+      title: "Usuário",
+      accessor: "username",
+      cellType: (data: (typeof tableData)[0]) => (
+        <DefaultContent cellData={data.username} />
+      ),
+    },
+    {
+      title: "Qnt. Treinos",
+      accessor: "workouts",
+
+      cellType: (data: (typeof tableData)[0]) => (
+        <DefaultContent cellData={data.workouts.length} />
+      ),
+    },
+    {
+      title: "Ações",
+      accessor: "actions",
+      width: "360px",
+      cellType: (data: (typeof tableData)[0]) => (
+        <ActionsContent
+          cellData={data}
+          buttons={[
+            {
+              title: "Editar treinos",
+              action: (data) =>
+                navigate(routesURLs.studentWorkouts.replace(":id", data.id)),
+            },
+            { title: "Resetar senha", action: (data) => console.log(data) },
+            { title: "Excluir usuário", action: (data) => console.log(data) },
+          ]}
+        />
+      ),
+    },
+  ];
   return (
     <S.Wrapper>
       <Title>Listagem de Alunos</Title>
