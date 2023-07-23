@@ -27,7 +27,7 @@ export function Table({ headers, data }: TableProps) {
       <tbody>
         {data.map((content, i) => (
           <tr key={i} style={{ width: "100%" }}>
-            {headers.map(({ cellType }, i) => (
+            {headers.map(({ cellType }) => (
               <td>{cellType(content)}</td>
             ))}
           </tr>

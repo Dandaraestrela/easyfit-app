@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import * as S from "./WorkoutExecution.styles";
+
 import { Title } from "@/components/DefaultStyles/Typography";
 import { Dropdown } from "@/components/Dropdown/Dropdown";
 import { Row } from "@/components/DefaultStyles/Row";
@@ -7,11 +9,10 @@ import TextInput from "@/components/TextInput/TextInput";
 import TextArea from "@/components/TextArea/TextArea";
 import Button from "@/components/Button/Button";
 import { routesURLs } from "@/routes/Router";
-import { useEffect, useState } from "react";
 import api from "@/services/api";
-import { toast } from "react-hot-toast";
 import { ExerciseType } from "@/utils/types";
 
+import * as S from "./WorkoutExecution.styles";
 interface WorkoutType {
   name: string;
   executed: number;
@@ -49,7 +50,7 @@ export function WorkoutExecution() {
         });
         setIsLoading(false);
       })
-      .catch((error) =>
+      .catch(() =>
         toast.error("Não foi possível acessar esse treino no momento.")
       );
   }, []);

@@ -44,7 +44,7 @@ export function CreateStudentWorkout() {
         toast.success("Treino criado com sucesso!");
         navigate(routesURLs.studentWorkouts.replace(":id", studentId || ""));
       })
-      .catch((err) => toast.error("Não foi possível criar este treino."));
+      .catch(() => toast.error("Não foi possível criar este treino."));
   };
 
   return (

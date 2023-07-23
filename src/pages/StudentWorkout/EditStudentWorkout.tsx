@@ -37,7 +37,7 @@ export function EditStudentWorkout() {
         toast.success("Treino editado com sucesso!");
         navigate(routesURLs.studentWorkouts.replace(":id", studentId || ""));
       })
-      .catch((err) => toast.error("Não foi possível criar este treino."));
+      .catch(() => toast.error("Não foi possível criar este treino."));
   };
 
   const resetAsyncForm = useCallback(async () => {

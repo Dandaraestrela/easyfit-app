@@ -1,15 +1,19 @@
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+
+import api from "@/services/api";
+
 import { Table } from "@/components/Table/Table";
 import ActionsContent from "@/components/Table/TableCellTypes/ActionsContent";
 import DefaultContent from "@/components/Table/TableCellTypes/DefaultContent";
+import { Title } from "@/components/DefaultStyles/Typography";
+
+import { routesURLs } from "@/routes/Router";
+
+import { useUserContext } from "@/contexts/UserContext";
 
 import * as S from "./StudentsList.styles";
-import { Title } from "@/components/DefaultStyles/Typography";
-import { useNavigate } from "react-router-dom";
-import { routesURLs } from "@/routes/Router";
-import { useEffect, useState } from "react";
-import api from "@/services/api";
-import { useUserContext } from "@/contexts/UserContext";
-import { toast } from "react-hot-toast";
 
 export function StudentsList() {
   const navigate = useNavigate();
@@ -24,9 +28,7 @@ export function StudentsList() {
         setStudentsList(response.data.clients);
         setIsLoading(false);
       })
-      .catch((err) =>
-        toast.error("Não foi possível carregar a lista de alunos")
-      );
+      .catch(() => toast.error("Não foi possível carregar a lista de alunos"));
   };
 
   const headers = [
@@ -78,7 +80,7 @@ export function StudentsList() {
                     listStudents();
                     toast.success("Senha alterada para a default: easyfitapp");
                   })
-                  .catch((error) => {
+                  .catch(() => {
                     toast.error("Não foi possível resetar a senha do usuário");
                   });
               },
@@ -92,7 +94,7 @@ export function StudentsList() {
                     listStudents();
                     toast.success("Usuário deletado");
                   })
-                  .catch((error) => {
+                  .catch(() => {
                     toast.error("Não foi possível deletar o usuário");
                   });
               },

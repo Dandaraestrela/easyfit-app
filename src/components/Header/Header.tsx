@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Barbell, Gear, SignOut, Users } from "@phosphor-icons/react";
+import { Barbell, SignOut, Users } from "@phosphor-icons/react";
 
 import { routesURLs } from "@/routes/Router";
 

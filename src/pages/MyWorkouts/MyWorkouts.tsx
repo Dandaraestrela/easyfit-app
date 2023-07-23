@@ -1,16 +1,19 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+
+import api from "@/services/api";
+
 import { Table } from "@/components/Table/Table";
 import { Title } from "@/components/DefaultStyles/Typography";
-
 import ActionsContent from "@/components/Table/TableCellTypes/ActionsContent";
 import DefaultContent from "@/components/Table/TableCellTypes/DefaultContent";
 
-import * as S from "./MyWorkouts.styles";
-import { useNavigate } from "react-router-dom";
 import { routesURLs } from "@/routes/Router";
-import { useEffect, useState } from "react";
-import api from "@/services/api";
+
 import { useUserContext } from "@/contexts/UserContext";
-import { toast } from "react-hot-toast";
+
+import * as S from "./MyWorkouts.styles";
 
 export function MyWorkouts() {
   const navigate = useNavigate();
@@ -59,9 +62,7 @@ export function MyWorkouts() {
         setWorkoutsList(response.data.workouts);
         setIsLoading(false);
       })
-      .catch((error) =>
-        toast.error("Não foi possível carregar a lista de treinos")
-      );
+      .catch(() => toast.error("Não foi possível carregar a lista de treinos"));
   }, []);
   return (
     <S.Wrapper>

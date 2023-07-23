@@ -1,11 +1,5 @@
 import { User } from "@/utils/types";
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useReducer,
-  useState,
-} from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 
 interface UserContextType {
   hasLoggedUser: boolean;

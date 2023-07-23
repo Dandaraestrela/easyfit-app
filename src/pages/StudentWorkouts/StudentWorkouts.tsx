@@ -1,15 +1,15 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import * as S from "./StudentWorkouts.styles";
-import { Title } from "@/components/DefaultStyles/Typography";
+import { toast } from "react-hot-toast";
 import { PencilSimpleLine, Trash } from "@phosphor-icons/react";
+
+import { Title } from "@/components/DefaultStyles/Typography";
 import { theme } from "@/styles/theme";
 import Button from "@/components/Button/Button";
 import { routesURLs } from "@/routes/Router";
-import { useEffect, useState } from "react";
-import { User } from "@/utils/types";
 import api from "@/services/api";
-import { toast } from "react-hot-toast";
 
+import * as S from "./StudentWorkouts.styles";
 interface SimpleWorkoutType {
   id: string;
   name: string;
@@ -32,9 +32,7 @@ export function StudentWorkouts() {
         // Todo setare os loaidng como false no erro no resto do sistema
         setIsLoading(false);
       })
-      .catch((err) =>
-        toast.error("Não foi possível carregar a lista de treinos")
-      );
+      .catch(() => toast.error("Não foi possível carregar a lista de treinos"));
   };
 
   const onDeleteExercise = (id: string) => {
@@ -44,7 +42,7 @@ export function StudentWorkouts() {
         listWorkouts();
         toast.success("Treino apagado com sucesso!");
       })
-      .catch((e) => toast.error("Não foi possível deletar este treino."));
+      .catch(() => toast.error("Não foi possível deletar este treino."));
   };
 
   useEffect(() => {
@@ -54,9 +52,7 @@ export function StudentWorkouts() {
         .then((response) => {
           setStudentName(response.data.client.name);
         })
-        .catch((err) =>
-          toast.error("Não foi possível carregar as informações.")
-        );
+        .catch(() => toast.error("Não foi possível carregar as informações."));
 
       await listWorkouts();
     };
