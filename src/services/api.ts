@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:3333/";
+const baseURL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:3333/"
+    : "https://easy-fit-api.onrender.com/";
 
 const api = axios.create({
   baseURL,

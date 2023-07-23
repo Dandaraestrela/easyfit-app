@@ -17,10 +17,10 @@ export function Header() {
         <Barbell size={22} weight="bold" />
         Treinos
       </NavLink>,
-      <NavLink key="Configurações" to={routesURLs.config}>
-        <Gear size={22} weight="bold" />
-        Configurações
-      </NavLink>,
+      // <NavLink key="Configurações" to={routesURLs.config}>
+      //   <Gear size={22} weight="bold" />
+      //   Configurações
+      // </NavLink>,
     ],
     personal: [
       <NavLink key="treinos" to={routesURLs.studentsList}>
