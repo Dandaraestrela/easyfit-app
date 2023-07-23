@@ -41,7 +41,7 @@ export function EditStudentWorkout() {
       })
       .catch(() => {
         toast.dismiss(toastId);
-        toast.error("Não foi possível criar este treino.");
+        toast.error("Não foi possível editar este treino.");
       });
   };
 
