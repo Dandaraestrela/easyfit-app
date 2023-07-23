@@ -17,7 +17,7 @@ export function Table({ headers, data }: TableProps) {
     <S.Wrapper>
       <thead>
         <tr>
-          {headers.map(({ title, width = "auto" }, i) => (
+          {headers.map(({ title, width = "auto" }) => (
             <th key={title} style={{ width: width }}>
               <S.TableHeader>{title}</S.TableHeader>
             </th>
