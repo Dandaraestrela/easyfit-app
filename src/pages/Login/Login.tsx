@@ -49,6 +49,7 @@ export function Login() {
           username: response.data.user.username,
           type: "client",
         });
+        toast.dismiss(toastId);
         navigate(routesURLs.myWorkouts);
       } catch (err: any) {
         if (err.response.status === 404) {

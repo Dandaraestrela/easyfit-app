@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import moment from "moment";
 
 import api from "@/services/api";
 
@@ -24,7 +25,12 @@ export function MyWorkouts() {
     {
       title: "Cadastro",
       accessor: "createdAt",
-      cellType: (data: any) => <DefaultContent cellData={data.createdAt} />,
+      cellType: (data: any) => (
+        <DefaultContent
+          cellData={data.createdAt}
+          formatter={(data) => moment(data).format("L")}
+        />
+      ),
     },
     {
       title: "Nome",
