@@ -6,6 +6,8 @@ import * as S from "./StudentsList.styles";
 import { Title } from "@/components/DefaultStyles/Typography";
 import { useNavigate } from "react-router-dom";
 import { routesURLs } from "@/routes/Router";
+import { useEffect } from "react";
+import api from "@/services/api";
 
 const tableData = [
   {
@@ -90,6 +92,13 @@ export function StudentsList() {
       ),
     },
   ];
+
+  useEffect(() => {
+    api
+      .get("workouts")
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <S.Wrapper>
       <Title>Listagem de Alunos</Title>

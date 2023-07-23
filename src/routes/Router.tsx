@@ -10,6 +10,7 @@ import { WorkoutExecution } from "@/pages/WorkoutExecution/WorkoutExecution";
 import { StudentWorkouts } from "@/pages/StudentWorkouts/StudentWorkouts";
 import { EditStudentWorkout } from "@/pages/StudentWorkout/EditStudentWorkout";
 import { CreateStudentWorkout } from "@/pages/StudentWorkout/CreateStudentWorkout";
+import { PrivateRoute } from "./PrivateRoute";
 
 export const routesURLs = {
   login: "/login",
@@ -30,28 +31,69 @@ export function Router() {
       <Route path={routesURLs.login} element={<Login />} />
       <Route path={routesURLs.logout} element={<Logout />} />
       <Route path={"/"} element={<DefaultLayout />}>
-        <Route path={routesURLs.myWorkouts} element={<MyWorkouts />} />
-        <Route path={routesURLs.config} element={<Config />} />
-        <Route path={routesURLs.studentsList} element={<StudentsList />} />
+        <Route
+          path={routesURLs.myWorkouts}
+          element={
+            <PrivateRoute>
+              <MyWorkouts />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={routesURLs.config}
+          element={
+            <PrivateRoute>
+              <Config />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={routesURLs.studentsList}
+          element={
+            <PrivateRoute isPersonalRoute>
+              <StudentsList />
+            </PrivateRoute>
+          }
+        />
         <Route
           path={routesURLs.studentWorkouts}
-          element={<StudentWorkouts />}
+          element={
+            <PrivateRoute isPersonalRoute>
+              <StudentWorkouts />
+            </PrivateRoute>
+          }
         />
         <Route
           path={routesURLs.createStudentWorkout}
-          element={<CreateStudentWorkout />}
+          element={
+            <PrivateRoute isPersonalRoute>
+              <CreateStudentWorkout />
+            </PrivateRoute>
+          }
         />
         <Route
           path={routesURLs.editStudentWorkout}
-          element={<EditStudentWorkout />}
+          element={
+            <PrivateRoute isPersonalRoute>
+              <EditStudentWorkout />
+            </PrivateRoute>
+          }
         />
         <Route
           path={routesURLs.studentsRegister}
-          element={<StudentsRegister />}
+          element={
+            <PrivateRoute isPersonalRoute>
+              <StudentsRegister />
+            </PrivateRoute>
+          }
         />
         <Route
           path={routesURLs.workoutExecution}
-          element={<WorkoutExecution />}
+          element={
+            <PrivateRoute>
+              <WorkoutExecution />
+            </PrivateRoute>
+          }
         />
       </Route>
     </Routes>

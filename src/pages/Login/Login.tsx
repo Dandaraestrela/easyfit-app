@@ -9,27 +9,67 @@ import { ReactComponent as Logo } from "@/assets/Logo.svg";
 import * as S from "./Login.styles";
 import { useNavigate } from "react-router-dom";
 import { routesURLs } from "@/routes/Router";
+import { Row } from "@/components/DefaultStyles/Row";
+import api from "@/services/api";
+import { toast } from "react-hot-toast";
+import { useUserContext } from "@/contexts/UserContext";
 
 export const schema = Yup.object({
   user: Yup.string().required("Campo obrigatório"),
   password: Yup.string().required("Campo obrigatório"),
+  type: Yup.string().required("Campo obrigatório"),
 });
 
 export function Login() {
   const navigate = useNavigate();
+  const { loginUser } = useUserContext();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: { user: "", password: "" },
+    defaultValues: { user: "", password: "", type: "student" },
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = () => {
+  const onSubmit = async (values) => {
     // TODO: alterar de acordo com perfil que fez login
-    navigate(routesURLs.myWorkouts);
+
+    console.log(values);
+    if (values.type === "student") {
+      const response = await api.post("login/clients", {
+        username: values.user,
+        password: values.password,
+      });
+      console.log(response);
+      loginUser({
+        id: response.data.user.id,
+        name: response.data.user.name,
+        username: response.data.user.username,
+        type: "client",
+      });
+      navigate(routesURLs.myWorkouts);
+    }
+    if (values.type === "professor") {
+      console.log("entrou no if de professor");
+      try {
+        const response = await api.post("login/personals", {
+          username: values.user,
+          password: values.password,
+        });
+        console.log(response);
+        loginUser({
+          id: response.data.user.id,
+          name: response.data.user.name,
+          username: response.data.user.username,
+          type: "personal",
+        });
+        navigate(routesURLs.studentsList);
+      } catch (err: any) {
+        if (err.response.status === 404) toast.error("Usuário não encontrado");
+      }
+    }
   };
 
   return (
@@ -50,9 +90,27 @@ export function Login() {
           {...register("password")}
           error={errors.password?.message}
         />
+        <Row $gap={12}>
+          <input
+            type="radio"
+            id="student"
+            value="student"
+            {...register("type")}
+          />
+          <label htmlFor="student">Aluno</label>
+          <input
+            type="radio"
+            id="professor"
+            value="professor"
+            {...register("type")}
+          />
+          <label htmlFor="professor">Professor</label>
+        </Row>
+
         <Button type="submit" marginTop={12}>
           Entrar
         </Button>
+
         <Button type="button" variant="secondary" marginTop={12}>
           Cadastro
         </Button>

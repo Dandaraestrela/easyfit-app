@@ -6,12 +6,13 @@ import { routesURLs } from "@/routes/Router";
 import { ReactComponent as Logo } from "@/assets/Logo.svg";
 
 import * as S from "./Header.styles";
+import { useUserContext } from "@/contexts/UserContext";
 
 export function Header() {
-  const userType = "trainer";
+  const { loggedUser } = useUserContext();
 
   const menuLinks = {
-    student: [
+    client: [
       <NavLink key="Treinos" to={routesURLs.myWorkouts}>
         <Barbell size={22} weight="bold" />
         Treinos
@@ -21,7 +22,7 @@ export function Header() {
         Configurações
       </NavLink>,
     ],
-    trainer: [
+    personal: [
       <NavLink key="treinos" to={routesURLs.studentsList}>
         <Barbell size={22} weight="bold" />
         Treinos
@@ -41,7 +42,7 @@ export function Header() {
     <S.Wrapper>
       <NavLink
         to={
-          userType === "student"
+          loggedUser?.type === "client"
             ? routesURLs.myWorkouts
             : routesURLs.studentsList
         }
@@ -49,7 +50,7 @@ export function Header() {
         <Logo style={{ width: "140px" }} />
       </NavLink>
       <S.MenuLinksWrapper>
-        {menuLinks[userType]}
+        {menuLinks[loggedUser?.type || "client"]}
         <NavLink key="Sair" to={routesURLs.logout}>
           <SignOut size={22} weight="bold" />
           Sair
