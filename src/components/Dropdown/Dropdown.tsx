@@ -14,6 +14,7 @@ export function Dropdown({ title, attention, children }: DropdownProps) {
   return (
     <S.Wrapper $isOpen={isOpen}>
       <S.DropdownHeaderButton
+        type="button"
         $isOpen={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
       >

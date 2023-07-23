@@ -13,17 +13,38 @@ import { schema } from "./StudentWorkout.utils";
 import { StudentWorkout } from "./StudentWorkout";
 
 import * as S from "./StudentWorkout.styles";
+import api from "@/services/api";
+import { useUserContext } from "@/contexts/UserContext";
+import { toast } from "react-hot-toast";
 
 export function CreateStudentWorkout() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const methods = useForm<{ exercises: ExerciseType[] }>({
-    defaultValues: { exercises: [] },
+  const { studentId } = useParams();
+  const { loggedUser } = useUserContext();
+  const methods = useForm<{ name: String; exercises: ExerciseType[] }>({
+    defaultValues: { name: "", exercises: [] },
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (values) => {
-    console.log(values);
+    api
+      .post("workouts", {
+        personalId: loggedUser?.id,
+        clientId: studentId,
+        name: values.name,
+        exercises: values.exercises.map((exercise) => ({
+          name: exercise.name,
+          repetitions: exercise.repetitions,
+          link: exercise.link,
+          breathing: exercise.breathing,
+          description: exercise.description,
+        })),
+      })
+      .then(() => {
+        toast.success("Treino criado com sucesso!");
+        navigate(routesURLs.studentWorkouts.replace(":id", studentId || ""));
+      })
+      .catch((err) => toast.error("Não foi possível criar este treino."));
   };
 
   return (
@@ -37,7 +58,9 @@ export function CreateStudentWorkout() {
             variant="secondary"
             col={4}
             onClick={() =>
-              navigate(routesURLs.studentWorkouts.replace(":id", id || ""))
+              navigate(
+                routesURLs.studentWorkouts.replace(":id", studentId || "")
+              )
             }
           >
             VOLTAR

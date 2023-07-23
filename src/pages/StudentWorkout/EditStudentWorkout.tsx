@@ -9,58 +9,78 @@ import { Title } from "@/components/DefaultStyles/Typography";
 import { Row } from "@/components/DefaultStyles/Row";
 import Button from "@/components/Button/Button";
 
-import { schema } from "./StudentWorkout.utils";
+import { defaultWorkout, schema } from "./StudentWorkout.utils";
 import { StudentWorkout } from "./StudentWorkout";
 
 import * as S from "./StudentWorkout.styles";
+import { useCallback, useEffect, useState } from "react";
+import api from "@/services/api";
+import { toast } from "react-hot-toast";
 
 export function EditStudentWorkout() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { studentId, workoutId } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const mockedWorkout = {
-    exercises: [
-      {
-        id: "12",
-        name: "preenchido",
-        description: "preenchido",
-        repetitions: "preenchido",
-        breathing: "preenchido",
-        url: "preenchido",
-      },
-    ],
-  };
-
-  const methods = useForm<{ exercises: ExerciseType[] }>({
-    defaultValues: mockedWorkout,
+  const methods = useForm<{ name: string; exercises: ExerciseType[] }>({
+    defaultValues: defaultWorkout,
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (values) => {
-    console.log(values);
+    api
+      .put(`workout?workoutId=${workoutId}`, {
+        name: values.name,
+        exercises: values.exercises,
+      })
+      .then(() => {
+        toast.success("Treino editado com sucesso!");
+        navigate(routesURLs.studentWorkouts.replace(":id", studentId || ""));
+      })
+      .catch((err) => toast.error("Não foi possível criar este treino."));
   };
+
+  const resetAsyncForm = useCallback(async () => {
+    const { data } = await api.get(`workouts/${workoutId}`);
+
+    methods.reset({
+      name: data.name,
+      exercises: data.exercises,
+    });
+    setIsLoading(false);
+  }, [methods.reset]);
+
+  useEffect(() => {
+    resetAsyncForm();
+  }, []);
 
   return (
     <FormProvider {...methods}>
-      <S.FormWrapper onSubmit={methods.handleSubmit(onSubmit)}>
-        <Title>Novo treino</Title>
-        <StudentWorkout />
-        <Row $justifyContent="space-between">
-          <Button
-            type="button"
-            variant="secondary"
-            col={4}
-            onClick={() =>
-              navigate(routesURLs.studentWorkouts.replace(":id", id || ""))
-            }
-          >
-            VOLTAR
-          </Button>
-          <Button type="submit" col={4}>
-            SALVAR ALTERAÇÕES
-          </Button>
-        </Row>
-      </S.FormWrapper>
+      {isLoading ? (
+        <h1>loading...</h1>
+      ) : (
+        <S.FormWrapper onSubmit={methods.handleSubmit(onSubmit)}>
+          <Title>Novo treino</Title>
+          <StudentWorkout />
+          <Row $justifyContent="space-between">
+            <Button
+              type="button"
+              variant="secondary"
+              col={4}
+              onClick={() =>
+                navigate(
+                  routesURLs.studentWorkouts.replace(":id", studentId || "")
+                )
+              }
+            >
+              VOLTAR
+            </Button>
+            <Button type="submit" col={4}>
+              SALVAR ALTERAÇÕES
+            </Button>
+          </Row>
+        </S.FormWrapper>
+      )}
     </FormProvider>
   );
 }

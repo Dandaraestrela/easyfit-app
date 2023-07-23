@@ -3,7 +3,6 @@ import { useFormContext, useFieldArray } from "react-hook-form";
 import { Trash } from "@phosphor-icons/react";
 
 import { theme } from "@/styles/theme";
-import { ExerciseType } from "@/utils/types";
 
 import { Title } from "@/components/DefaultStyles/Typography";
 import { Dropdown } from "@/components/Dropdown/Dropdown";
@@ -29,9 +28,16 @@ export function StudentWorkout() {
 
   return (
     <S.ContentWrapper>
+      <Row>
+        <TextInput
+          label="Nome do treino"
+          {...register("name")}
+          error={errors.name?.message?.toString()}
+        />
+      </Row>
       {fields.length ? (
         fields.map((field, index) => (
-          <Row $gap={8}>
+          <Row key={field.id} $gap={8}>
             <Dropdown
               key={field.id}
               title={watchedExercises?.[index].name || ""}
@@ -39,7 +45,7 @@ export function StudentWorkout() {
                 !!errors.exercises?.[index]?.name ||
                 !!errors.exercises?.[index]?.breathing ||
                 !!errors.exercises?.[index]?.repetitions ||
-                !!errors.exercises?.[index]?.url ||
+                !!errors.exercises?.[index]?.link ||
                 !!errors.exercises?.[index]?.description
               }
             >
@@ -64,8 +70,8 @@ export function StudentWorkout() {
                 <Row $gap={8}>
                   <TextInput
                     label="Link"
-                    {...register(`exercises.${index}.url`)}
-                    error={errors.exercises?.[index]?.url?.message}
+                    {...register(`exercises.${index}.link`)}
+                    error={errors.exercises?.[index]?.link?.message}
                   />
                 </Row>
                 <Row>
@@ -100,12 +106,11 @@ export function StudentWorkout() {
           col={4}
           onClick={() =>
             append({
-              id: `${fields.length + 1}`, // TODO: gerar id
               name: "Novo exercício",
               description: "",
               repetitions: "",
               breathing: "",
-              url: "",
+              link: "",
             })
           }
         >

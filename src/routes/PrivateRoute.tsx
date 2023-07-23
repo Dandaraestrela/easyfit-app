@@ -9,7 +9,7 @@ export function PrivateRoute({
   isPersonalRoute?: boolean;
 }) {
   const { hasLoggedUser, loggedUser, logoutUser } = useUserContext();
-  console.log(loggedUser);
+
   if (!hasLoggedUser) return <Navigate to="/login" />;
 
   if (loggedUser?.type === "personal" && isPersonalRoute) return children;

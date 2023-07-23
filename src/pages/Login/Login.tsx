@@ -34,31 +34,29 @@ export function Login() {
   });
 
   const onSubmit = async (values) => {
-    // TODO: alterar de acordo com perfil que fez login
-
-    console.log(values);
     if (values.type === "student") {
-      const response = await api.post("login/clients", {
-        username: values.user,
-        password: values.password,
-      });
-      console.log(response);
-      loginUser({
-        id: response.data.user.id,
-        name: response.data.user.name,
-        username: response.data.user.username,
-        type: "client",
-      });
-      navigate(routesURLs.myWorkouts);
+      try {
+        const response = await api.post("login/clients", {
+          username: values.user,
+          password: values.password,
+        });
+        loginUser({
+          id: response.data.user.id,
+          name: response.data.user.name,
+          username: response.data.user.username,
+          type: "client",
+        });
+        navigate(routesURLs.myWorkouts);
+      } catch (err: any) {
+        if (err.response.status === 404) toast.error("Usuário não encontrado");
+      }
     }
     if (values.type === "professor") {
-      console.log("entrou no if de professor");
       try {
         const response = await api.post("login/personals", {
           username: values.user,
           password: values.password,
         });
-        console.log(response);
         loginUser({
           id: response.data.user.id,
           name: response.data.user.name,

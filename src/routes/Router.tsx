@@ -16,12 +16,12 @@ export const routesURLs = {
   login: "/login",
   logout: "/logout",
   myWorkouts: "/meus-treinos",
-  workoutExecution: "/meus-treinos/:slug/:id",
+  workoutExecution: "/meus-treinos/:id",
   config: "/configuracoes",
   studentsList: "/listagem-de-alunos",
   studentWorkouts: "/listagem-de-alunos/treinos/:id",
-  editStudentWorkout: "/listagem-de-alunos/treinos/:id/:workoutId",
-  createStudentWorkout: "/listagem-de-alunos/treinos/:id/criar-treino",
+  editStudentWorkout: "/listagem-de-alunos/treinos/:studentId/:workoutId",
+  createStudentWorkout: "/listagem-de-alunos/treinos/:studentId/criar-treino",
   studentsRegister: "/cadastro-de-alunos",
 };
 

@@ -7,71 +7,114 @@ import TextInput from "@/components/TextInput/TextInput";
 import TextArea from "@/components/TextArea/TextArea";
 import Button from "@/components/Button/Button";
 import { routesURLs } from "@/routes/Router";
+import { useEffect, useState } from "react";
+import api from "@/services/api";
+import { toast } from "react-hot-toast";
+import { ExerciseType } from "@/utils/types";
+
+interface WorkoutType {
+  name: string;
+  executed: number;
+  exercises: ExerciseType[];
+}
 
 export function WorkoutExecution() {
   const navigate = useNavigate();
-  let { slug, id } = useParams(); // TODO: search por id
+  const { id } = useParams();
+  const [workoutInfo, setWorkoutInfo] = useState<WorkoutType | undefined>(
+    undefined
+  );
+  const [isLoading, setIsLoading] = useState(true);
 
-  const dataFromObjectMock = {
-    exercises: [
-      {
-        id: 1,
-        name: "Corda naval",
-        description:
-          "Este exercicio deve ser executado pegando a corda e balançando-a",
-        repetitions: "3",
-        breathing: "20 por 20",
-        url: "https://google.com.br",
-        isYoutubeUrl: true,
-      },
-      {
-        id: 2,
-        name: "Flexao",
-        description: "Este exercicio deve ser executado ",
-        repetitions: "3",
-        breathing: "20 por 20",
-        url: "https://google.com.br",
-        isYoutubeUrl: true,
-      },
-    ],
+  const onConludeWorkout = () => {
+    api
+      .put(`workout/executions?workoutId=${id}`, {
+        executed: (workoutInfo?.executed || 0) + 1,
+      })
+      .then(() => {
+        toast.success("Treino concluído com sucesso");
+        navigate(routesURLs.myWorkouts);
+      })
+      .catch(() => toast.error("Não foi possível concluir este treino"));
   };
+
+  useEffect(() => {
+    api
+      .get(`workouts/${id}`)
+      .then(({ data }) => {
+        setWorkoutInfo({
+          name: data.name,
+          executed: data.executed,
+          exercises: data.exercises,
+        });
+        setIsLoading(false);
+      })
+      .catch((error) =>
+        toast.error("Não foi possível acessar esse treino no momento.")
+      );
+  }, []);
+
   // TODO: adicionar modal de confirmação se quer concluir ou voltar
   return (
     <S.Wrapper>
-      {slug}
-      <S.ContentWrapper>
-        <Title>Exercícios do treino</Title>
-        {dataFromObjectMock.exercises.map((exercise) => (
-          <Dropdown key={exercise.id} title={exercise.name}>
-            <>
-              <Row $gap={8}>
-                <TextArea
-                  label="Descrição"
-                  value="valor valorvalorvalorvalorvalor valorvalorvalorvalor valorvalorvalor"
-                  isReadOnly
-                />
-                <TextInput label="Repetições" value="valor" isReadOnly />
-                <TextInput label="Respiração" value="valor" isReadOnly />
-              </Row>
-              <Row $gap={8}>
-                <a href={"https://google.com.br"} target="_blank">
-                  {"https://google.com.br"}
-                </a>
-              </Row>
-            </>
-          </Dropdown>
-        ))}
-      </S.ContentWrapper>
-      <Row $justifyContent="space-between">
-        <Button
-          col={4}
-          variant="secondary"
-          onClick={() => navigate(routesURLs.myWorkouts)}
-        >
-          Voltar
-        </Button>
-        <Button col={4}>Concluir treino</Button>
-      </Row>
+      {isLoading ? (
+        <h1>loading...</h1>
+      ) : (
+        <>
+          {workoutInfo?.name}
+          <S.ContentWrapper>
+            <Title>Exercícios do treino</Title>
+            {workoutInfo?.exercises.map((exercise) => (
+              <Dropdown key={exercise.id} title={exercise.name}>
+                <>
+                  <Row $gap={8}>
+                    <TextInput
+                      label="Nome do exercício"
+                      value={exercise.name}
+                      isReadOnly
+                    />
+                    <TextInput
+                      label="Respiração"
+                      value={exercise.breathing}
+                      isReadOnly
+                    />
+                    <TextInput
+                      label="Repetições"
+                      value={exercise.repetitions}
+                      isReadOnly
+                    />
+                  </Row>
+                  <Row $gap={8}>
+                    <TextArea
+                      label="Descrição"
+                      value={exercise.description}
+                      isReadOnly
+                    />
+                  </Row>
+                  <Row $gap={8}>
+                    <a href={exercise.link} target="_blank">
+                      Clique aqui para acessar vídeo explicativo sobre o
+                      exercício!
+                    </a>
+                  </Row>
+                </>
+              </Dropdown>
+            ))}
+          </S.ContentWrapper>
+          <Row $justifyContent="space-between">
+            <Button
+              col={4}
+              variant="secondary"
+              onClick={() => navigate(routesURLs.myWorkouts)}
+            >
+              Voltar
+            </Button>
+            <Button col={4} onClick={() => onConludeWorkout()}>
+              Concluir treino
+            </Button>
+          </Row>
+        </>
+      )}
     </S.Wrapper>
   );
 }

@@ -1,3 +1,4 @@
+import { User } from "@/utils/types";
 import {
   ReactNode,
   createContext,
@@ -5,13 +6,6 @@ import {
   useReducer,
   useState,
 } from "react";
-
-interface User {
-  id: string;
-  name: string;
-  username: string;
-  type: "personal" | "client";
-}
 
 interface UserContextType {
   hasLoggedUser: boolean;
