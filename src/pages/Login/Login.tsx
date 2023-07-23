@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "react-hot-toast";
 
 import TextInput from "@/components/TextInput/TextInput";
 import Button from "@/components/Button/Button";
@@ -11,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { routesURLs } from "@/routes/Router";
 import { Row } from "@/components/DefaultStyles/Row";
 import api from "@/services/api";
-import { toast } from "react-hot-toast";
+
 import { useUserContext } from "@/contexts/UserContext";
 
 export const schema = Yup.object({
@@ -35,6 +36,8 @@ export function Login() {
 
   const onSubmit = async (values) => {
     if (values.type === "student") {
+      const toastId = toast.loading("Carregando...");
+
       try {
         const response = await api.post("login/clients", {
           username: values.user,
@@ -48,7 +51,10 @@ export function Login() {
         });
         navigate(routesURLs.myWorkouts);
       } catch (err: any) {
-        if (err.response.status === 404) toast.error("Usuário não encontrado");
+        if (err.response.status === 404) {
+          toast.dismiss(toastId);
+          toast.error("Usuário não encontrado");
+        }
       }
     }
     if (values.type === "professor") {
@@ -107,10 +113,6 @@ export function Login() {
 
         <Button type="submit" marginTop={12}>
           Entrar
-        </Button>
-
-        <Button type="button" variant="secondary" marginTop={12}>
-          Cadastro
         </Button>
       </form>
     </S.Wrapper>

@@ -27,6 +27,7 @@ export function CreateStudentWorkout() {
   });
 
   const onSubmit = (values) => {
+    const toastId = toast.loading("Carregando...");
     api
       .post("workouts", {
         personalId: loggedUser?.id,
@@ -41,10 +42,14 @@ export function CreateStudentWorkout() {
         })),
       })
       .then(() => {
+        toast.dismiss(toastId);
         toast.success("Treino criado com sucesso!");
         navigate(routesURLs.studentWorkouts.replace(":id", studentId || ""));
       })
-      .catch(() => toast.error("Não foi possível criar este treino."));
+      .catch(() => {
+        toast.dismiss(toastId);
+        toast.error("Não foi possível criar este treino.");
+      });
   };
 
   return (

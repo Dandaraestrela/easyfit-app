@@ -63,7 +63,7 @@ export function StudentWorkouts() {
   return (
     <S.Wrapper>
       {isLoading ? (
-        <h1>loading...</h1>
+        <h1>Carregando...</h1>
       ) : (
         <>
           Treinos de: {studentName}

@@ -112,7 +112,7 @@ export function StudentsList() {
     <S.Wrapper>
       <Title>Listagem de Alunos</Title>
       {isLoading ? (
-        <h1>loading...</h1>
+        <h1>Carregando...</h1>
       ) : (
         <Table headers={headers} data={studentsList} />
       )}

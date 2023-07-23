@@ -68,7 +68,7 @@ export function MyWorkouts() {
     <S.Wrapper>
       <Title>Meus treinos</Title>
       {isLoading ? (
-        "Loading..."
+        "Carregando..."
       ) : (
         <Table headers={headers} data={workoutsList} />
       )}

@@ -31,6 +31,7 @@ export function StudentsRegister() {
   });
 
   const onSubmit = async (values) => {
+    const toastId = toast.loading("Carregando...");
     try {
       await api.post("users/client", {
         username: values.username,
@@ -38,9 +39,11 @@ export function StudentsRegister() {
         name: values.name,
         personal_id: loggedUser?.id,
       });
+      toast.dismiss(toastId);
       toast.success("Usuário cadastrado com sucesso!");
       reset();
     } catch (err) {
+      toast.dismiss(toastId);
       toast.error("Falha no cadastro");
     }
   };

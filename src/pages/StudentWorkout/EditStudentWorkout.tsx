@@ -28,16 +28,21 @@ export function EditStudentWorkout() {
   });
 
   const onSubmit = (values) => {
+    const toastId = toast.loading("Carregando...");
     api
       .put(`workout?workoutId=${workoutId}`, {
         name: values.name,
         exercises: values.exercises,
       })
       .then(() => {
+        toast.dismiss(toastId);
         toast.success("Treino editado com sucesso!");
         navigate(routesURLs.studentWorkouts.replace(":id", studentId || ""));
       })
-      .catch(() => toast.error("Não foi possível criar este treino."));
+      .catch(() => {
+        toast.dismiss(toastId);
+        toast.error("Não foi possível criar este treino.");
+      });
   };
 
   const resetAsyncForm = useCallback(async () => {
@@ -57,7 +62,7 @@ export function EditStudentWorkout() {
   return (
     <FormProvider {...methods}>
       {isLoading ? (
-        <h1>loading...</h1>
+        <h1>Carregando...</h1>
       ) : (
         <S.FormWrapper onSubmit={methods.handleSubmit(onSubmit)}>
           <Title>Novo treino</Title>

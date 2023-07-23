@@ -28,15 +28,20 @@ export function WorkoutExecution() {
   const [isLoading, setIsLoading] = useState(true);
 
   const onConludeWorkout = () => {
+    const toastId = toast.loading("Carregando...");
     api
       .put(`workout/executions?workoutId=${id}`, {
         executed: (workoutInfo?.executed || 0) + 1,
       })
       .then(() => {
+        toast.dismiss(toastId);
         toast.success("Treino concluído com sucesso");
         navigate(routesURLs.myWorkouts);
       })
-      .catch(() => toast.error("Não foi possível concluir este treino"));
+      .catch(() => {
+        toast.dismiss(toastId);
+        toast.error("Não foi possível concluir este treino");
+      });
   };
 
   useEffect(() => {
@@ -59,7 +64,7 @@ export function WorkoutExecution() {
   return (
     <S.Wrapper>
       {isLoading ? (
-        <h1>loading...</h1>
+        <h1>Carregando...</h1>
       ) : (
         <>
           {workoutInfo?.name}
