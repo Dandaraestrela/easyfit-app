@@ -39,7 +39,7 @@ export function StudentsList() {
       cellType: (data: any) => (
         <DefaultContent
           cellData={data.createdAt}
-          formatter={(data) => moment(data).format("L")}
+          formatter={(data) => moment(data).format("DD/MM/YYYY")}
         />
       ),
     },
