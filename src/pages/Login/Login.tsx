@@ -59,6 +59,7 @@ export function Login() {
       }
     }
     if (values.type === "professor") {
+      const toastId = toast.loading("Carregando...");
       try {
         const response = await api.post("login/personals", {
           username: values.user,
@@ -70,9 +71,13 @@ export function Login() {
           username: response.data.user.username,
           type: "personal",
         });
+        toast.dismiss(toastId);
         navigate(routesURLs.studentsList);
       } catch (err: any) {
-        if (err.response.status === 404) toast.error("Usuário não encontrado");
+        if (err.response.status === 404) {
+          toast.dismiss(toastId);
+          toast.error("Usuário não encontrado");
+        }
       }
     }
   };

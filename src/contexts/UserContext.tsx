@@ -15,16 +15,22 @@ interface UserContextProviderProps {
 }
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
-  const [loggedUser, setLoggedUser] = useState<User | undefined>(undefined);
+  const [loggedUser, setLoggedUser] = useState<User | undefined>(
+    localStorage.getItem("loggedUser") !== null
+      ? JSON.parse(localStorage.getItem("loggedUser") || "")
+      : undefined
+  );
 
   const hasLoggedUser = !!loggedUser;
 
   const loginUser = (user: User) => {
     setLoggedUser(user);
+    localStorage.setItem("loggedUser", JSON.stringify(user));
   };
 
   const logoutUser = () => {
     setLoggedUser(undefined);
+    localStorage.setItem("loggedUser", JSON.stringify(null));
   };
 
   return (
